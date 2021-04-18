@@ -1,6 +1,7 @@
 const webpack = require("webpack");
-const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const Dotenv = require("dotenv-webpack");
+const path = require("path");
 
 module.exports = {
   entry: ["babel-polyfill", "./index.js"],
@@ -43,5 +44,6 @@ module.exports = {
       },
     }),
     new webpack.optimize.UglifyJsPlugin(),
+    new Dotenv(),
   ],
 };

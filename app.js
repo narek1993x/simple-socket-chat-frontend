@@ -9,6 +9,7 @@ import MessageList from "./components/MessageList";
 import SendMessageForm from "./components/SendMessageForm";
 import NewRoomForm from "./components/NewRoomForm";
 import Auth from "./components/Auth";
+import Loader from "./components/shared/Loader";
 
 import { addRoom } from "./store/room/actions";
 import { authUser, subscribeToUser } from "./store/user/actions";
@@ -24,15 +25,15 @@ class App extends React.Component {
       isUserNameSet: false,
     };
 
+    this.token = localStorage.getItem("userToken");
     this.authInputRef = React.createRef();
   }
 
   componentDidMount = () => {
     const { dispatch } = this.props;
 
-    const token = localStorage.getItem("userToken");
-    if (token) {
-      dispatch(authUser({ token }, socketActions.LOGIN_WITH_TOKEN));
+    if (this.token) {
+      dispatch(authUser({ token: this.token }, socketActions.LOGIN_WITH_TOKEN));
     } else {
       this.authInputRef.current.focus();
     }
@@ -165,6 +166,10 @@ class App extends React.Component {
           <NewRoomForm addRoom={this.addRoom} />
         </div>
       );
+    }
+
+    if (this.token && !isAuthenticated) {
+      content = <Loader />;
     }
 
     return content;

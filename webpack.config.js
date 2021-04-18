@@ -1,6 +1,5 @@
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const Dotenv = require("dotenv-webpack");
 const path = require("path");
 
 module.exports = {
@@ -48,6 +47,5 @@ module.exports = {
       inject: "body",
     }),
     new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("development") }),
-    new Dotenv(),
   ],
 };

@@ -4,8 +4,9 @@
   "description": "my first socket.io app",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dist && webpack --config webpack.prod.config.js --progress --profile --color",
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot"
+    "build": "rimraf build && webpack --config webpack.prod.config.js --progress --profile --color",
+    "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --hot",
+    "start": "node server/server.js"
   },
   "author": "",
   "license": "ISC",

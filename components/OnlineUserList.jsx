@@ -25,7 +25,7 @@ const OnlineUserList = memo((props) => {
               <a onClick={() => !isCurrent && subscribeToUser(user)}>
                 <span className={`status${user.online ? " online" : ""}`}>{user.online ? "●" : "○"}</span>
                 {user.username} {isCurrent && " (you)"}
-                {unseenMessages ? <Badge text={unseenMessages.count} /> : null}
+                {unseenMessages && unseenMessages.count ? <Badge text={unseenMessages.count} /> : null}
               </a>
             </li>
           );

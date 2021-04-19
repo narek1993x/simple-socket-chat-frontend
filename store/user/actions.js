@@ -42,7 +42,26 @@ export const subscribeToUser = (subscribedUser) => {
   };
 };
 
+export const updateCurrentUser = ({ fromUserId, ...payload }) => {
+  return (dispatch, getState) => {
+    if (fromUserId) {
+      const subscribedUser = getState().user.subscribedUser;
+
+      if (subscribedUser && subscribedUser._id === fromUserId) return;
+    }
+
+    dispatch({
+      type: types.UPDATE_CURRENT_USER,
+      payload,
+    });
+  };
+};
+
 createSubscriptions([
+  {
+    query: socketActions.USER_UPDATE,
+    reduxAction: updateCurrentUser,
+  },
   {
     query: socketActions.USER_JOINED,
     reduxAction: setUsers,

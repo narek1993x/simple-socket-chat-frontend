@@ -18,6 +18,9 @@ const reducer = (state = initialState, action) => {
       return updateObject(state, { currentUser, isAuthenticated: !!currentUser });
     case types.SUBSCRIBE_TO_USER:
       return updateObject(state, { subscribedUser: action.subscribedUser });
+
+    case types.UPDATE_CURRENT_USER:
+      return updateObject(state, { currentUser: updateObject(state.currentUser, action.payload) });
     default:
       return state;
   }

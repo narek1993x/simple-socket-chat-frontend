@@ -14,7 +14,7 @@ import Notification from "components/shared/Notification";
 
 import { addRoom } from "store/room/actions";
 import { clearError } from "store/global/actions";
-import { authUser, subscribeToUser } from "store/user/actions";
+import { authUser, updateCurrentUser, subscribeToUser } from "store/user/actions";
 import { setMessages, setPrivateMessages, addNewMessageByKey } from "store/message/actions";
 
 class App extends React.Component {
@@ -67,6 +67,13 @@ class App extends React.Component {
   handleSubscribeToUser = (user) => {
     const { currentUser } = this.props;
 
+    const newUnseenMessages = currentUser.unseenMessages.map((m) => {
+      if (m.from === user._id) {
+        return { ...m, count: 0 };
+      }
+      return m;
+    });
+
     const emitData = {
       action: socketActions.SUBSCRIBE_USER,
       body: {
@@ -82,6 +89,7 @@ class App extends React.Component {
 
     this.props.dispatch(setPrivateMessages([]));
     this.props.dispatch(subscribeToUser(user));
+    this.props.dispatch(updateCurrentUser({ unseenMessages: newUnseenMessages }));
     socket.emit("query", emitData);
   };
 

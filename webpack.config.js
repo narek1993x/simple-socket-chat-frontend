@@ -1,51 +1,70 @@
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const webpack = require("webpack");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const env = process.env.NODE_ENV;
+
+const isDev = env === "development";
 
 module.exports = {
-  entry: ["babel-polyfill", "./index.js"],
-  output: {
-    path: path.resolve(__dirname, "build"),
-    publicPath: "",
-    filename: "[name].bundle.js",
+  devServer: {
+    contentBase: path.join(__dirname, "dist"),
+    compress: true,
+    port: 3000,
+    historyApiFallback: true,
   },
-  devtool: "#source-map",
+  entry: ["babel-polyfill", path.join(__dirname, "./index.js")],
+  output: {
+    path: path.join(__dirname, "dist"),
+    filename: "js/[name].min.js",
+  },
+  optimization: {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          chunks: "all",
+        },
+      },
+    },
+  },
+  resolve: {
+    extensions: [".js", ".jsx", ".scss", "css"],
+    alias: {
+      components: path.join(__dirname, "components"),
+      store: path.join(__dirname, "store"),
+      helpers: path.join(__dirname, "helpers"),
+    },
+  },
+  devtool: isDev ? "source-map" : false,
   module: {
     rules: [
       {
-        use: "babel-loader",
+        test: /\.s?css$/,
+        use: [isDev ? "style-loader" : MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+      },
+      {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/,
-        loader: ["style-loader", "css-loader"],
-        include: __dirname + "/",
-      },
-      {
-        test: /\.styl$/,
-        loader: "style-loader!css-loader!stylus-loader",
-        include: __dirname + "/",
+        use: {
+          loader: "babel-loader",
+        },
       },
     ],
   },
-  resolve: {
-    extensions: [".js", ".jsx"],
-  },
-  devServer: {
-    historyApiFallback: true,
-    port: 3000,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 1000,
-    },
-  },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve(__dirname, "public/index.html"),
+    new HtmlWebPackPlugin({
+      template: path.join(__dirname, "public/index.html"),
       filename: "index.html",
-      inject: "body",
     }),
-    new webpack.DefinePlugin({ "process.env.NODE_ENV": JSON.stringify("development") }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[name].css",
+      ignoreOrder: true,
+    }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 3,
+    }),
   ],
 };

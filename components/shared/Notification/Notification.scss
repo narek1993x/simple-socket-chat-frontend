@@ -1,0 +1,25 @@
+.Notification {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+
+  &__error,
+  &__success {
+    border: 1px solid;
+    padding: 15px 10px 15px 50px;
+  }
+
+  &__error {
+    color: #d8000c;
+    background-color: #ffbaba;
+  }
+
+  &__success {
+    color: #4f8a10;
+    background-color: #dff2bf;
+  }
+}

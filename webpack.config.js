@@ -33,6 +33,8 @@ module.exports = {
     extensions: [".js", ".jsx", ".scss", "css"],
     alias: {
       components: path.join(__dirname, "components"),
+      shared: path.join(__dirname, "components/shared"),
+      socket: path.join(__dirname, "socket"),
       store: path.join(__dirname, "store"),
       helpers: path.join(__dirname, "helpers"),
     },

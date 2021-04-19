@@ -1,21 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
-import socket from "./socket/socket";
-import * as socketActions from "./socket/socketActions";
+import socket from "socket/socket";
+import * as socketActions from "socket/socketActions";
 
-import RoomList from "./components/RoomList";
-import OnlineUserList from "./components/OnlineUserList";
-import MessageList from "./components/MessageList";
-import SendMessageForm from "./components/SendMessageForm";
-import NewRoomForm from "./components/NewRoomForm";
-import Auth from "./components/Auth";
-import Loader from "./components/shared/Loader";
-import Notification from "./components/shared/Notification";
+import RoomList from "components/RoomList";
+import OnlineUserList from "components/OnlineUserList";
+import MessageList from "components/MessageList";
+import SendMessageForm from "components/SendMessageForm";
+import NewRoomForm from "components/NewRoomForm";
+import Auth from "components/Auth";
+import Loader from "components/shared/Loader";
+import Notification from "components/shared/Notification";
 
-import { addRoom } from "./store/room/actions";
-import { clearError } from "./store/global/actions";
-import { authUser, subscribeToUser } from "./store/user/actions";
-import { setMessages, setPrivateMessages, addNewMessageByKey } from "./store/message/actions";
+import { addRoom } from "store/room/actions";
+import { clearError } from "store/global/actions";
+import { authUser, subscribeToUser } from "store/user/actions";
+import { setMessages, setPrivateMessages, addNewMessageByKey } from "store/message/actions";
 
 class App extends React.Component {
   constructor(props) {
@@ -146,7 +146,7 @@ class App extends React.Component {
   render() {
     const { roomId, roomName } = this.state;
 
-    const { isAuthenticated, subscribedUser, username, error } = this.props;
+    const { isAuthenticated, subscribedUser, currentUser, username, error } = this.props;
 
     const subscribedUserId = subscribedUser && subscribedUser._id;
     const subscribedUsername = subscribedUser && subscribedUser.username;
@@ -165,7 +165,7 @@ class App extends React.Component {
         <div className="app">
           <RoomList currentRoomId={roomId} subscribeToRoom={this.subscribeToRoom} />
           <OnlineUserList
-            username={username}
+            currentUser={currentUser}
             subscribedUser={subscribedUser}
             subscribeToUser={this.handleSubscribeToUser}
           />

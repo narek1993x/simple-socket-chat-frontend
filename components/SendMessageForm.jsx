@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
-import * as socketActions from "../socket/socketActions";
-import socket from "../socket/socket";
+import * as socketActions from "socket/socketActions";
+import socket from "socket/socket";
 
 class SendMessageForm extends PureComponent {
   state = {

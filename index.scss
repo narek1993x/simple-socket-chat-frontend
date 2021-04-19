@@ -84,11 +84,13 @@ form {
   }
   .user {
     a {
+      position: relative;
       display: flex;
       align-items: center;
       color: var(--secondary-color);
       font-weight: 400;
       text-decoration: none;
+      cursor: pointer;
       .status {
         margin-right: 5px;
       }
@@ -338,6 +340,7 @@ form {
   display: inline;
   border-radius: 8px;
 }
+
 .type {
   padding: 0;
   margin: 0;
@@ -347,6 +350,7 @@ form {
   color: var(--secondary-color);
   font-weight: 400;
 }
+
 .error-message {
   align-self: flex-start;
   margin: 0;

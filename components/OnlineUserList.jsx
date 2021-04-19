@@ -1,8 +1,9 @@
 import React, { memo } from "react";
 import { connect } from "react-redux";
+import Badge from "shared/Badge";
 
 const OnlineUserList = memo((props) => {
-  const { users, username, subscribeToUser, subscribedUser = {}, isDirectTyping, typingUsername, isTyping } = props;
+  const { users, currentUser, subscribeToUser, subscribedUser = {} } = props;
 
   const orderedUsers = [...users].sort((a, b) => a.id - b.id);
   const onlineUsersCount = orderedUsers.reduce((a, b) => {
@@ -15,16 +16,16 @@ const OnlineUserList = memo((props) => {
       <ul>
         <h3>Online users count: {onlineUsersCount}</h3>
         {orderedUsers.map((user) => {
-          const current = user.username === username;
+          const isCurrent = user._id === currentUser._id;
           const selected = subscribedUser && subscribedUser.username === user.username;
-          const isType = isTyping && isDirectTyping && user.username === typingUsername;
+          const unseenMessages = currentUser.unseenMessages.find((m) => m.from === user._id);
 
           return (
             <li key={user._id} className={`user ${selected ? "selected" : ""}`}>
-              <a href="#" onClick={() => !current && subscribeToUser(user)}>
+              <a onClick={() => !isCurrent && subscribeToUser(user)}>
                 <span className={`status${user.online ? " online" : ""}`}>{user.online ? "●" : "○"}</span>
-                {user.username} {current && " (you)"}
-                {isType && <p className="type">...</p>}
+                {user.username} {isCurrent && " (you)"}
+                {unseenMessages ? <Badge text={unseenMessages.count} /> : null}
               </a>
             </li>
           );
@@ -36,9 +37,6 @@ const OnlineUserList = memo((props) => {
 
 const mapStateToProps = (state) => ({
   users: state.user.users,
-  typingUsername: state.message.typingUsername,
-  isDirectTyping: state.message.isDirectTyping,
-  isTyping: state.message.isTyping,
 });
 
 export default connect(mapStateToProps)(OnlineUserList);

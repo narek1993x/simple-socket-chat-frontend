@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
-import Input from "./shared/Input";
-import { checkValidity } from "../helpers/utils";
+import Input from "shared/Input";
+import { checkValidity } from "helpers/utils";
 
 class Auth extends Component {
   state = {

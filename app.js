@@ -10,8 +10,10 @@ import SendMessageForm from "./components/SendMessageForm";
 import NewRoomForm from "./components/NewRoomForm";
 import Auth from "./components/Auth";
 import Loader from "./components/shared/Loader";
+import Notification from "./components/shared/Notification";
 
 import { addRoom } from "./store/room/actions";
+import { clearError } from "./store/global/actions";
 import { authUser, subscribeToUser } from "./store/user/actions";
 import { setMessages, setPrivateMessages, addNewMessageByKey } from "./store/message/actions";
 
@@ -137,15 +139,26 @@ class App extends React.Component {
     this.props.dispatch(authUser(body, socketActions.LOGIN));
   };
 
+  handleClearError = () => {
+    this.props.dispatch(clearError());
+  };
+
   render() {
     const { roomId, roomName } = this.state;
 
-    const { isAuthenticated, subscribedUser, username } = this.props;
+    const { isAuthenticated, subscribedUser, username, error } = this.props;
 
     const subscribedUserId = subscribedUser && subscribedUser._id;
     const subscribedUsername = subscribedUser && subscribedUser.username;
 
-    let content = <Auth authInputRef={this.authInputRef} onHandleUserAuth={this.handleUserAuth} />;
+    let content = (
+      <Auth
+        error={error}
+        clearError={this.handleClearError}
+        authInputRef={this.authInputRef}
+        onHandleUserAuth={this.handleUserAuth}
+      />
+    );
 
     if (isAuthenticated) {
       content = (
@@ -172,11 +185,17 @@ class App extends React.Component {
       content = <Loader />;
     }
 
-    return content;
+    return (
+      <>
+        {isAuthenticated && error && <Notification type="error" message={error} onClose={this.handleClearError} />}
+        {content}
+      </>
+    );
   }
 }
 
 export default connect((state) => ({
+  error: state.global.error,
   rooms: state.room.rooms,
   currentUser: state.user.currentUser,
   username: state.user.currentUser.username,

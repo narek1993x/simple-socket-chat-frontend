@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
 import Input from "./shared/Input";
-import { clearError } from "../store/global/actions";
 import { checkValidity } from "../helpers/utils";
 
 class Auth extends Component {
@@ -61,7 +59,7 @@ class Auth extends Component {
       (prevState) => ({ isSignin: !prevState.isSignin }),
       () => {
         this.handleResetFields();
-        this.props.dispatch(clearError());
+        this.props.clearError();
       },
     );
   };
@@ -86,6 +84,7 @@ class Auth extends Component {
       delete params.email;
     }
 
+    this.props.clearError();
     this.props.onHandleUserAuth(params);
   };
 
@@ -174,8 +173,4 @@ class Auth extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  error: state.global.error,
-});
-
-export default connect(mapStateToProps)(Auth);
+export default Auth;

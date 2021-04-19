@@ -1,25 +1,41 @@
 .Notification {
-  display: flex;
-  justify-content: center;
   position: absolute;
-  width: 100%;
   top: 0;
   left: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
   box-sizing: border-box;
+  font-family: "Verdana", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
 
   &__error,
   &__success {
-    border: 1px solid;
-    padding: 15px 10px 15px 50px;
+    padding: 20px;
+    color: white;
   }
 
   &__error {
-    color: #d8000c;
-    background-color: #ffbaba;
+    background-color: #f44336;
   }
 
   &__success {
-    color: #4f8a10;
-    background-color: #dff2bf;
+    background-color: #4caf50;
+  }
+
+  &__close-btn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+      color: black;
+    }
   }
 }

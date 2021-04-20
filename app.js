@@ -42,6 +42,8 @@ class App extends React.Component {
   };
 
   subscribeToRoom = ({ roomName, id }) => {
+    const { currentUser, dispatch } = this.props;
+
     if (this.state.roomName) {
       socket.emit("query", {
         action: socketActions.LEAVE_ROOM,
@@ -54,12 +56,13 @@ class App extends React.Component {
       action: socketActions.SUBSCRIBE_ROOM,
       body: {
         roomName,
-        id,
+        roomId: id,
+        currentUserId: currentUser._id,
       },
     };
     this.setState({ roomId: id, roomName });
-    this.props.dispatch(setMessages([]));
-    this.props.dispatch(subscribeToUser(null));
+    dispatch(setMessages([]));
+    dispatch(subscribeToUser(null));
 
     socket.emit("query", emitData);
   };

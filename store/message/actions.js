@@ -41,19 +41,11 @@ export const setPrivateMessages = (privateMessages) => {
   };
 };
 
-export const addNewMessageByKey = (message, key, fromSubscribe = false) => {
-  return (dispatch, getState) => {
-    if (key === "privateMessages" && fromSubscribe) {
-      const subUserId = getState().user.subscribedUser?._id;
-
-      if (subUserId && subUserId !== message.to && subUserId !== message.createdBy._id) return;
-    }
-
-    dispatch({
-      type: types.ADD_NEWS_MESSAGE_BY_KEY,
-      message,
-      key,
-    });
+export const addNewMessageByKey = (message, key) => {
+  return {
+    type: types.ADD_NEWS_MESSAGE_BY_KEY,
+    message,
+    key,
   };
 };
 
@@ -78,11 +70,11 @@ createSubscriptions([
   {
     query: socketActions.MESSAGE,
     reduxAction: [addNewMessageByKey, breakTyping],
-    params: ["messages", true],
+    params: ["messages"],
   },
   {
     query: socketActions.PRIVATE_MESSAGE,
     reduxAction: [addNewMessageByKey, breakTyping],
-    params: ["privateMessages", true],
+    params: ["privateMessages"],
   },
 ]);

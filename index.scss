@@ -91,6 +91,7 @@ form {
       font-weight: 400;
       text-decoration: none;
       cursor: pointer;
+
       .status {
         margin-right: 5px;
       }
@@ -118,7 +119,6 @@ form {
     > .active {
       a {
         color: #0f0;
-        cursor: pointer;
       }
     }
   }
@@ -142,6 +142,8 @@ form {
       color: var(--secondary-color);
       font-weight: 400;
       text-decoration: none;
+      cursor: pointer;
+
       .status {
         margin-right: 5px;
       }

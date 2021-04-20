@@ -1,5 +1,5 @@
-import React, { memo } from 'react';
-import { connect } from 'react-redux';
+import React, { memo } from "react";
+import { connect } from "react-redux";
 
 const RoomList = memo(({ rooms, subscribeToRoom, currentRoomId }) => {
   return (
@@ -9,10 +9,8 @@ const RoomList = memo(({ rooms, subscribeToRoom, currentRoomId }) => {
         {rooms.map(({ _id, name }) => {
           const isActive = currentRoomId === _id;
           return (
-            <li key={_id} className={`room ${isActive && 'active'}`}>
-              <a href="#" onClick={() => subscribeToRoom({ id: _id, roomName: name })}>
-                {name}
-              </a>
+            <li key={_id} className={`room ${isActive && "active"}`}>
+              <a onClick={() => subscribeToRoom({ id: _id, roomName: name })}>{name}</a>
             </li>
           );
         })}
@@ -22,7 +20,7 @@ const RoomList = memo(({ rooms, subscribeToRoom, currentRoomId }) => {
 });
 
 const mapStateToProps = (state) => ({
-  rooms: state.room.rooms
+  rooms: state.room.rooms,
 });
 
 export default connect(mapStateToProps)(RoomList);

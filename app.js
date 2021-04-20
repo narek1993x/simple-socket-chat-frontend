@@ -65,7 +65,7 @@ class App extends React.Component {
   };
 
   handleSubscribeToUser = (user) => {
-    const { currentUser } = this.props;
+    const { currentUser, dispatch } = this.props;
 
     const newUnseenMessages = currentUser.unseenMessages.map((m) => {
       if (m.from === user._id) {
@@ -87,15 +87,15 @@ class App extends React.Component {
       roomName: "",
     });
 
-    this.props.dispatch(setPrivateMessages([]));
-    this.props.dispatch(subscribeToUser(user));
-    this.props.dispatch(updateCurrentUser({ unseenMessages: newUnseenMessages }));
+    dispatch(setPrivateMessages([]));
+    dispatch(subscribeToUser(user));
+    dispatch(updateCurrentUser({ unseenMessages: newUnseenMessages }));
     socket.emit("query", emitData);
   };
 
   sendMessage = (message) => {
     const { roomName, roomId } = this.state;
-    const { currentUser, username, subscribedUser } = this.props;
+    const { currentUser, username, subscribedUser, dispatch } = this.props;
 
     if (!message) return;
 
@@ -122,7 +122,7 @@ class App extends React.Component {
     }
 
     const newItemKey = subscribedUser && subscribedUser._id ? "privateMessages" : "messages";
-    this.props.dispatch(addNewMessageByKey({ message, username }, newItemKey));
+    dispatch(addNewMessageByKey({ message, username }, newItemKey));
     socket.emit("query", emitData);
   };
 

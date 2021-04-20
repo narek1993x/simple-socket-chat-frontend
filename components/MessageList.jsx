@@ -56,7 +56,7 @@ class MessageList extends React.Component {
     return (
       <div className="message-list">
         {list.map(({ message, createdDate = Date.now(), createdBy, username }, i) => {
-          const currentUsername = username || (createdBy && createdBy.username);
+          const currentUsername = username || createdBy?.username;
           return (
             <Message
               key={i}

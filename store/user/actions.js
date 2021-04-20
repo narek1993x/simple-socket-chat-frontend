@@ -45,9 +45,9 @@ export const subscribeToUser = (subscribedUser) => {
 export const updateCurrentUser = ({ fromUserId, ...payload }) => {
   return (dispatch, getState) => {
     if (fromUserId) {
-      const subscribedUser = getState().user.subscribedUser;
+      const subUserId = getState().user.subscribedUser?._id;
 
-      if (subscribedUser && subscribedUser._id === fromUserId) return;
+      if (subUserId === fromUserId) return;
     }
 
     dispatch({

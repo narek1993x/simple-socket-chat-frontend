@@ -44,9 +44,9 @@ export const setPrivateMessages = (privateMessages) => {
 export const addNewMessageByKey = (message, key, fromSubscribe = false) => {
   return (dispatch, getState) => {
     if (key === "privateMessages" && fromSubscribe) {
-      const subscribedUser = getState().user.subscribedUser;
+      const subUserId = getState().user.subscribedUser?._id;
 
-      if (subscribedUser && subscribedUser._id !== message.to && subscribedUser._id !== message.createdBy._id) return;
+      if (subUserId && subUserId !== message.to && subUserId !== message.createdBy._id) return;
     }
 
     dispatch({

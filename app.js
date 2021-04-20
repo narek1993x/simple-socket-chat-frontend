@@ -109,7 +109,7 @@ class App extends React.Component {
       },
     };
 
-    if (subscribedUser && subscribedUser.username) {
+    if (subscribedUser?.username) {
       emitData = {
         action: socketActions.PRIVATE_MESSAGE,
         body: {
@@ -121,7 +121,7 @@ class App extends React.Component {
       };
     }
 
-    const newItemKey = subscribedUser && subscribedUser._id ? "privateMessages" : "messages";
+    const newItemKey = subscribedUser?._id ? "privateMessages" : "messages";
     dispatch(addNewMessageByKey({ message, username }, newItemKey));
     socket.emit("query", emitData);
   };
@@ -156,8 +156,7 @@ class App extends React.Component {
 
     const { isAuthenticated, subscribedUser, currentUser, username, error } = this.props;
 
-    const subscribedUserId = subscribedUser && subscribedUser._id;
-    const subscribedUsername = subscribedUser && subscribedUser.username;
+    const subscribedUsername = subscribedUser?.username;
 
     let content = (
       <Auth
@@ -179,7 +178,7 @@ class App extends React.Component {
           />
           <MessageList roomId={roomId} subscribedUsername={subscribedUsername} currentUserId={username} />
           <SendMessageForm
-            disabled={!roomId && !subscribedUserId}
+            disabled={!roomId && !subscribedUser?._id}
             sendMessage={this.sendMessage}
             roomName={roomName}
             subscribedUsername={subscribedUsername}

@@ -17,7 +17,7 @@ const OnlineUserList = memo((props) => {
         <h3>Online users count: {onlineUsersCount}</h3>
         {orderedUsers.map((user) => {
           const isCurrent = user._id === currentUser._id;
-          const selected = subscribedUser && subscribedUser.username === user.username;
+          const selected = subscribedUser?.username === user.username;
           const unseenMessages = currentUser.unseenMessages.find((m) => m.from === user._id);
 
           return (
@@ -25,7 +25,7 @@ const OnlineUserList = memo((props) => {
               <a onClick={() => !isCurrent && subscribeToUser(user)}>
                 <span className={`status${user.online ? " online" : ""}`}>{user.online ? "●" : "○"}</span>
                 {user.username} {isCurrent && " (you)"}
-                {unseenMessages && unseenMessages.count ? <Badge text={unseenMessages.count} /> : null}
+                {unseenMessages?.count ? <Badge text={unseenMessages.count} /> : null}
               </a>
             </li>
           );

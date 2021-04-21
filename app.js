@@ -25,6 +25,7 @@ class App extends React.Component {
       roomName: "",
       roomId: null,
       isUserNameSet: false,
+      loading: false,
     };
 
     this.token = localStorage.getItem("userToken");
@@ -35,11 +36,20 @@ class App extends React.Component {
     const { dispatch } = this.props;
 
     if (this.token) {
+      this.setState({ loading: true });
       dispatch(authUser({ token: this.token }, socketActions.LOGIN_WITH_TOKEN));
     } else {
       this.authInputRef.current.focus();
     }
   };
+
+  componentDidUpdate(prevProps) {
+    const { isAuthenticated, error } = this.props;
+
+    if ((prevProps.isAuthenticated !== isAuthenticated && isAuthenticated) || (prevProps.error !== error && error)) {
+      this.setState({ loading: false });
+    }
+  }
 
   subscribeToRoom = ({ roomName, id }) => {
     const { currentUser, dispatch } = this.props;
@@ -147,6 +157,7 @@ class App extends React.Component {
 
     const body = { isSignin, username, password, ...(!isSignin ? { email } : {}) };
 
+    this.setState({ loading: true });
     this.props.dispatch(authUser(body, socketActions.LOGIN));
   };
 
@@ -155,7 +166,7 @@ class App extends React.Component {
   };
 
   render() {
-    const { roomId, roomName } = this.state;
+    const { roomId, roomName, loading } = this.state;
 
     const { isAuthenticated, subscribedUser, currentUser, username, error } = this.props;
 
@@ -191,7 +202,7 @@ class App extends React.Component {
       );
     }
 
-    if (this.token && !isAuthenticated && !error) {
+    if (loading) {
       content = <Loader />;
     }
 

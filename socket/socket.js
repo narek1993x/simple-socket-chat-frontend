@@ -1,7 +1,7 @@
 import io from "socket.io-client";
-import store from "../store";
+import store from "store";
+import { SET_ERROR } from "store/global/actionTypes";
 import { guid, createQueryData } from "./utils";
-import { SET_ERROR } from "../store/global/actionTypes";
 
 const wsUri = "https://simple-socket-chat-backend.herokuapp.com";
 const socket = io.connect(wsUri, { secure: true });
@@ -50,7 +50,7 @@ export const socketQuery = (body, queryAction) => {
       reject(`UNHANDLED ERROR IN "${queryAction}" ACTION`);
     };
   }).catch((error) => {
-    console.info("socket error ", error);
+    console.error("socket error ", error);
     throw error;
   });
 };
@@ -66,7 +66,7 @@ socket.on("response", ({ action, response, error, frontEndId }) => {
       throw `CALLBACK WAS NOT FOUND "${action}" ${JSON.stringify(response)}`;
     }
   } catch (err) {
-    console.log("socket response err: ", err);
+    console.info("socket response err: ", err);
   }
 });
 

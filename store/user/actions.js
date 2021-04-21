@@ -1,7 +1,8 @@
 import * as types from "./actionTypes";
-import * as socketActions from "../../socket/socketActions";
-import { socketQuery, createSubscriptions } from "../../socket/socket";
-import { setRooms } from "../room/actions";
+import * as socketActions from "socket/socketActions";
+import { socketQuery, createSubscriptions } from "socket/socket";
+import { setRooms } from "store/room/actions";
+import { setError } from "store/global/actions";
 
 export const authUser = (body, queryAction) => {
   return async (dispatch) => {
@@ -16,6 +17,7 @@ export const authUser = (body, queryAction) => {
       dispatch(setCurrentUser(currentUser));
       dispatch(setRooms(rooms));
     } catch (error) {
+      dispatch(setError(error));
       console.error("authUser: ", error);
     }
   };

@@ -1,6 +1,6 @@
 import * as types from "./actionTypes";
-import * as socketActions from "../../socket/socketActions";
-import { createSubscriptions } from "../../socket/socket";
+import * as socketActions from "socket/socketActions";
+import { createSubscriptions } from "socket/socket";
 
 export const setTyping = ({ username, direct = false, roomName = null }, stopTyping = false) => {
   return (dispatch, getState) => {

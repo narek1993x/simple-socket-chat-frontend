@@ -1,7 +1,7 @@
 import * as types from "./actionTypes";
-import * as socketActions from "../../socket/socketActions";
-import { socketQuery } from "../../socket/socket";
-import { createSubscriptions } from "../../socket/socket";
+import * as socketActions from "socket/socketActions";
+import { createSubscriptions, socketQuery } from "socket/socket";
+import { setError } from "store/global/actions";
 
 export const addRoom = (body, queryAction) => {
   return async (dispatch) => {
@@ -9,6 +9,7 @@ export const addRoom = (body, queryAction) => {
       const newRoom = await socketQuery(body, queryAction);
       dispatch(setNewRoom(newRoom));
     } catch (error) {
+      dispatch(setError(error));
       console.error("addRoom: ", error);
     }
   };

@@ -191,7 +191,7 @@ class App extends React.Component {
       );
     }
 
-    if (this.token && !isAuthenticated) {
+    if (this.token && !isAuthenticated && !error) {
       content = <Loader />;
     }
 

@@ -172,14 +172,18 @@ class App extends React.Component {
 
     const subscribedUsername = subscribedUser?.username;
 
-    let content = (
-      <Auth
-        error={error}
-        clearError={this.handleClearError}
-        authInputRef={this.authInputRef}
-        onHandleUserAuth={this.handleUserAuth}
-      />
-    );
+    let content = null;
+
+    if (!this.token || (!isAuthenticated && error)) {
+      content = (
+        <Auth
+          error={error}
+          clearError={this.handleClearError}
+          authInputRef={this.authInputRef}
+          onHandleUserAuth={this.handleUserAuth}
+        />
+      );
+    }
 
     if (isAuthenticated) {
       content = (

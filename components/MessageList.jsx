@@ -68,8 +68,8 @@ class MessageList extends React.Component {
           );
         })}
         {isType && (
-          <span className="message-type" style={{ maxWidth: typingUsername.length * 18 }}>
-            <p className="type">...{typingUsername} is typing</p>
+          <span className="message-type" style={{ maxWidth: roomId ? typingUsername.length * 17 : 60 }}>
+            <p className="type">{roomId && `${typingUsername} is `}typing...</p>
           </span>
         )}
       </div>

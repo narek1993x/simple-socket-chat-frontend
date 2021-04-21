@@ -202,10 +202,13 @@ class App extends React.Component {
       );
     }
 
+    if (loading) {
+      content = <Loader />;
+    }
+
     return (
       <>
         {isAuthenticated && error && <Notification type="error" message={error} onClose={this.handleClearError} />}
-        {loading && <Loader />}
         {content}
       </>
     );

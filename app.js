@@ -174,7 +174,7 @@ class App extends React.Component {
 
     let content = null;
 
-    if (!this.token || (!isAuthenticated && error)) {
+    if (!this.token || (!isAuthenticated && !loading)) {
       content = (
         <Auth
           error={error}
